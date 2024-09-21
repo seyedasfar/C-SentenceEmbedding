@@ -120,11 +120,14 @@ int main(int argc, char* argv[]) {
     float* output_tensor_values;
     check_status(api->GetTensorMutableData(output_tensor, (void**)&output_tensor_values), api);
 
-    // Print the output
-    printf("Model output:\n");
-    for (int i = 0; i < 384; i++) { // Adjust the loop according to your output shape
-        printf("%f\n", output_tensor_values[i]);
+    // Print the output in a format compatible with the shell script
+    printf("Sentence: %s\n", sentence);
+    printf("Embedding: [");
+    for (int i = 0; i < 5; i++) { // Print first 5 dimensions for brevity
+        if (i > 0) printf(" ");
+        printf("%f", output_tensor_values[i]);
     }
+    printf("]...\n");
 
     // Clean up
     api->ReleaseValue(output_tensor);
